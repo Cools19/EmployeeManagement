@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.emp.exception.ResourceNotFoundException;
 import com.emp.model.Employee;
 
 public class EmployeeServiceImpl implements IEmployeeService {
@@ -32,4 +33,22 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public void deleteEmployee(Integer id) {
 		employeeRepository.deleteById(id);
 	}
+	
+	@Override
+	public Employee updateEmployee(Employee employee, Integer id) {
+		// we check weather the employee exists with the given id or not
+		Employee existingEmployee = employeeRepository.findById(id).orElseThrow(
+				()-> new ResourceNotFoundException("Employee","id",id));
+				
+				existingEmployee.setFirstName(employee.getFirstName());
+				existingEmployee.setLastName(employee.getLastName());
+				existingEmployee.setEmail(employee.getEmail());
+				
+				//we will update the value and then save the updated value
+				employeeRepository.save(existingEmployee);
+				return existingEmployee;
+	
+	}
+	
+	
 }
