@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.emp.exception.ResourceNotFoundException;
 import com.emp.model.Employee;
 
+@Service
 public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Autowired
@@ -47,7 +49,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 				//we will update the value and then save the updated value
 				employeeRepository.save(existingEmployee);
 				return existingEmployee;
+				
+				
 	
+	}
+	@Override
+	public void deleteAll() {
+		 employeeRepository.deleteAll();
 	}
 	
 	
